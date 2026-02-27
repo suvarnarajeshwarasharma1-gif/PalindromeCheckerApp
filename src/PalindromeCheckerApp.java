@@ -1,40 +1,31 @@
 public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
-        // UC1: Startup Message
+        // --- UC1: INITIALIZATION ---
         System.out.println("Welcome to the Palindrome Checker Management System");
         System.out.println("Version : 1.0");
         System.out.println("System initialized successfully.");
         System.out.println("--------------------------------------------------");
 
-        String input = "madam"; // Standard input for UC9
+        // UC10 Input: "A man a plan a canal Panama"
+        String input = "A man a plan a canal Panama";
         System.out.println("Input : " + input);
 
-        // UC9: Recursive Validation
-        // Start index: 0, End index: length - 1
-        boolean isPalindrome = check(input, 0, input.length() - 1);
+        // --- UC10 Preprocessing (Normalization) ---
+        // 1. Convert to lowercase
+        // 2. Remove spaces and non-alphanumeric symbols using regex
+        String normalized = input.toLowerCase().replaceAll("[^a-zA-Z0-9]", "");
+
+        // --- UC10 Validation Logic ---
+        boolean isPalindrome = true;
+        // Compare symmetric characters from both ends until the midpoint
+        for (int i = 0; i < normalized.length() / 2; i++) {
+            if (normalized.charAt(i) != normalized.charAt(normalized.length() - 1 - i)) {
+                isPalindrome = false;
+                break;
+            }
+        }
+
         System.out.println("Is Palindrome? : " + isPalindrome);
-    }
-
-    /**
-     * Recursively checks if a string is a palindrome.
-     * @param s     Input string
-     * @param start Starting index
-     * @param end   Ending index
-     * @return true if palindrome, otherwise false
-     */
-    private static boolean check(String s, int start, int end) {
-        // Base Case: If pointers cross or meet, it is a palindrome
-        if (start >= end) {
-            return true;
-        }
-
-        // If characters at current positions don't match, it is not a palindrome
-        if (s.charAt(start) != s.charAt(end)) {
-            return false;
-        }
-
-        // Recursive call: move inward
-        return check(s, start + 1, end - 1);
     }
 }

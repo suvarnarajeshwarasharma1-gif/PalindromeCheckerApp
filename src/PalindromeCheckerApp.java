@@ -1,10 +1,22 @@
 public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
-        System.out.println("Welcome to the Palindrome Checker Management System");
+        String input = "madam";
+        boolean isPalindrome = true;
 
-        System.out.println("Version : 1.0");
+        // Display the input text
+        System.out.println("Input text: " + input);
 
-        System.out.println("System initialized successfully.");
+        // Palindrome logic: Loop only till half of the string length
+        for (int i = 0; i < input.length() / 2; i++) {
+            // Compare character at index 'i' with character at matching end index
+            if (input.charAt(i) != input.charAt(input.length() - 1 - i)) {
+                isPalindrome = false;
+                break; // Exit loop if a mismatch is found
+            }
+        }
+
+        // Display the result
+        System.out.println("Is it a Palindrome? : " + isPalindrome);
     }
 }

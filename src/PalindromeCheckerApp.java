@@ -1,22 +1,22 @@
 public class PalindromeCheckerApp {
 
+
     public static void main(String[] args) {
         String input = "madam";
-        boolean isPalindrome = true;
+        String reversed = "";
 
-        // Display the input text
-        System.out.println("Input text: " + input);
-
-        // Palindrome logic: Loop only till half of the string length
-        for (int i = 0; i < input.length() / 2; i++) {
-            // Compare character at index 'i' with character at matching end index
-            if (input.charAt(i) != input.charAt(input.length() - 1 - i)) {
-                isPalindrome = false;
-                break; // Exit loop if a mismatch is found
-            }
+        // Iterate from the last character to the first.
+        for (int i = input.length() - 1; i >= 0; i--) {
+            // String Concatenation (+) to build the reversed string
+            reversed += input.charAt(i);
         }
 
-        // Display the result
+        // Compare the actual content using the equals() method
+        boolean isPalindrome = input.equals(reversed);
+
+        // Display results
+        System.out.println("Original String: " + input);
+        System.out.println("Reversed String: " + reversed);
         System.out.println("Is it a Palindrome? : " + isPalindrome);
     }
 }

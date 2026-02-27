@@ -1,22 +1,43 @@
 public class PalindromeCheckerApp {
 
-
     public static void main(String[] args) {
-        String input = "madam";
-        String reversed = "";
+        System.out.println("Welcome to the Palindrome Checker Management System");
+        System.out.println("Version : 1.0");
+        System.out.println("System initialized successfully.");
+        System.out.println("--------------------------------------------------");
 
-        // Iterate from the last character to the first.
+        String input = "madam";
+        System.out.println("Input text: " + input);
+
+        boolean isPalindromeUC2 = true;
+        for (int i = 0; i < input.length() / 2; i++) {
+            if (input.charAt(i) != input.charAt(input.length() - 1 - i)) {
+                isPalindromeUC2 = false;
+                break;
+            }
+        }
+        System.out.println("UC2 Result (Half-loop): " + isPalindromeUC2);
+
+        String reversed = "";
         for (int i = input.length() - 1; i >= 0; i--) {
-            // String Concatenation (+) to build the reversed string
             reversed += input.charAt(i);
         }
+        boolean isPalindromeUC3 = input.equals(reversed);
+        System.out.println("UC3 Result (Reversal): " + isPalindromeUC3);
 
-        // Compare the actual content using the equals() method
-        boolean isPalindrome = input.equals(reversed);
+        char[] charArray = input.toCharArray();
+        int left = 0;
+        int right = charArray.length - 1;
+        boolean isPalindromeUC4 = true;
 
-        // Display results
-        System.out.println("Original String: " + input);
-        System.out.println("Reversed String: " + reversed);
-        System.out.println("Is it a Palindrome? : " + isPalindrome);
+        while (left < right) {
+            if (charArray[left] != charArray[right]) {
+                isPalindromeUC4 = false;
+                break;
+            }
+            left++;
+            right--;
+        }
+        System.out.println("UC4 Result (Char Array/Two-Pointer): " + isPalindromeUC4);
     }
 }

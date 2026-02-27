@@ -1,3 +1,35 @@
+/**
+ * Service class that contains palindrome logic.
+ * This demonstrates the Single Responsibility Principle.
+ */
+class PalindromeService {
+
+    /**
+     * Checks whether the input string is a palindrome.
+     * Uses an optimized two-pointer approach internally.
+     * @param input Input string
+     * @return true if palindrome, false otherwise
+     */
+    public boolean checkPalindrome(String input) {
+        // Preprocessing for robustness (UC10 logic)
+        String clean = input.toLowerCase().replaceAll("[^a-z0-9]", "");
+
+        // Initialize pointers
+        int start = 0;
+        int end = clean.length() - 1;
+
+        // Compare characters moving inward
+        while (start < end) {
+            if (clean.charAt(start) != clean.charAt(end)) {
+                return false;
+            }
+            start++;
+            end--;
+        }
+        return true;
+    }
+}
+
 public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
@@ -7,25 +39,17 @@ public class PalindromeCheckerApp {
         System.out.println("System initialized successfully.");
         System.out.println("--------------------------------------------------");
 
-        // UC10 Input: "A man a plan a canal Panama"
-        String input = "A man a plan a canal Panama";
+        // UC11 Input
+        String input = "racecar";
         System.out.println("Input : " + input);
 
-        // --- UC10 Preprocessing (Normalization) ---
-        // 1. Convert to lowercase
-        // 2. Remove spaces and non-alphanumeric symbols using regex
-        String normalized = input.toLowerCase().replaceAll("[^a-zA-Z0-9]", "");
+        // --- UC11: Object-Oriented Approach ---
+        // Instantiate the service class
+        PalindromeService service = new PalindromeService();
 
-        // --- UC10 Validation Logic ---
-        boolean isPalindrome = true;
-        // Compare symmetric characters from both ends until the midpoint
-        for (int i = 0; i < normalized.length() / 2; i++) {
-            if (normalized.charAt(i) != normalized.charAt(normalized.length() - 1 - i)) {
-                isPalindrome = false;
-                break;
-            }
-        }
+        // Call the encapsulated method
+        boolean result = service.checkPalindrome(input);
 
-        System.out.println("Is Palindrome? : " + isPalindrome);
+        System.out.println("Is Palindrome? : " + result);
     }
 }

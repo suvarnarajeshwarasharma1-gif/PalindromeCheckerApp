@@ -1,18 +1,21 @@
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
-        // UC1: Startup Flow
+        // UC1: Welcome Message & Versioning
         System.out.println("Welcome to the Palindrome Checker Management System");
         System.out.println("Version : 1.0");
         System.out.println("System initialized successfully.");
         System.out.println("--------------------------------------------------");
 
-        String input = "noon"; // input from UC5 hint
+        // UC6: Input string for validation
+        String input = "civic";
         System.out.println("Input : " + input);
 
-        // UC2: Midpoint Loop Efficiency
+        // UC2: Midpoint Loop (Half-length)
         boolean isPalindromeUC2 = true;
         for (int i = 0; i < input.length() / 2; i++) {
             if (input.charAt(i) != input.charAt(input.length() - 1 - i)) {
@@ -22,7 +25,7 @@ public class PalindromeCheckerApp {
         }
         System.out.println("UC2 (Half-loop) result: " + isPalindromeUC2);
 
-        // UC3: String Reversal (Immutability check)
+        // UC3: String Reversal logic
         String reversed = "";
         for (int i = input.length() - 1; i >= 0; i--) {
             reversed += input.charAt(i);
@@ -41,22 +44,38 @@ public class PalindromeCheckerApp {
         }
         System.out.println("UC4 (Two-pointer) result: " + isPalindromeUC4);
 
-        // UC5: Stack-Based Logic
-        Stack<Character> stack = new Stack<>();
-
-        // Push characters into stack
+        // UC5: Stack-Only Reversal (LIFO)
+        Stack<Character> stackUC5 = new Stack<>();
         for (char c : input.toCharArray()) {
-            stack.push(c);
+            stackUC5.push(c);
         }
-
         boolean isPalindromeUC5 = true;
-        // Iterate again through original string and pop from stack to compare
         for (char c : input.toCharArray()) {
-            if (c != stack.pop()) {
+            if (c != stackUC5.pop()) {
                 isPalindromeUC5 = false;
                 break;
             }
         }
-        System.out.println("Is Palindrome? (UC5 Stack-based): " + isPalindromeUC5);
+        System.out.println("UC5 (Stack-only) result: " + isPalindromeUC5);
+
+        // UC6: Queue + Stack Comparison (FIFO vs LIFO)
+        Queue<Character> queue = new LinkedList<>();
+        Stack<Character> stack = new Stack<>();
+
+        // Enqueue and Push characters
+        for (char c : input.toCharArray()) {
+            queue.add(c); // FIFO order
+            stack.push(c); // LIFO order
+        }
+
+        boolean isPalindromeUC6 = true;
+        // Compare Dequeue vs Pop
+        while (!queue.isEmpty()) {
+            if (!queue.poll().equals(stack.pop())) {
+                isPalindromeUC6 = false;
+                break;
+            }
+        }
+        System.out.println("Is Palindrome? (UC6 Queue + Stack): " + isPalindromeUC6);
     }
 }

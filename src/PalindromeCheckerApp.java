@@ -1,97 +1,36 @@
-import java.util.*;
-
-/**
- * INTERFACE - PalindromeStrategy
- * Defines a contract for all palindrome checking algorithms.
- */
-interface PalindromeStrategy {
-    boolean check(String input);
-}
-
-/**
- * CLASS - StackStrategy
- * Implements palindrome validation using the LIFO behavior of a Stack.
- */
-class StackStrategy implements PalindromeStrategy {
-    @Override
-    public boolean check(String input) {
-        // Normalization for consistency
-        String clean = input.toLowerCase().replaceAll("[^a-z0-9]", "");
-        java.util.Stack<Character> stack = new java.util.Stack<>();
-
-        // Push each character onto the stack
-        for (char c : clean.toCharArray()) {
-            stack.push(c);
-        }
-
-        // Compare by popping
-        for (char c : clean.toCharArray()) {
-            if (c != stack.pop()) {
-                return false;
-            }
-        }
-        return true;
-    }
-}
-
-/**
- * CLASS - DequeStrategy
- * Implements palindrome validation using double-ended operations.
- */
-class DequeStrategy implements PalindromeStrategy {
-    @Override
-    public boolean check(String input) {
-        String clean = input.toLowerCase().replaceAll("[^a-z0-9]", "");
-        Deque<Character> deque = new ArrayDeque<>();
-
-        for (char c : clean.toCharArray()) {
-            deque.addLast(c);
-        }
-
-        while (deque.size() > 1) {
-            if (!deque.removeFirst().equals(deque.removeLast())) {
-                return false;
-            }
-        }
-        return true;
-    }
-}
-
-/**
- * MAIN CLASS - UseCase12PalindromeCheckerApp
- * Demonstrates dynamic algorithm selection at runtime.
- */
 public class PalindromeCheckerApp {
-    private PalindromeStrategy strategy;
-
-    // Inject the strategy at runtime
-    public void setStrategy(PalindromeStrategy strategy) {
-        this.strategy = strategy;
-    }
-
-    public void validate(String input) {
-        System.out.println("Using Strategy: " + strategy.getClass().getSimpleName());
-        boolean result = strategy.check(input);
-        System.out.println("Input : " + input);
-        System.out.println("Is Palindrome? : " + result);
-        System.out.println("-----------------------------------");
-    }
 
     public static void main(String[] args) {
         // UC1: Welcome Message
         System.out.println("Welcome to the Palindrome Checker Management System");
-        System.out.println("Version : 12.0 - Strategy Pattern Edition");
+        System.out.println("Version : 1.0");
         System.out.println("System initialized successfully.");
         System.out.println("--------------------------------------------------");
 
-        PalindromeCheckerApp app = new PalindromeCheckerApp();
-        String testInput = "level";
+        String input = "level"; //
+        System.out.println("Input : " + input);
 
-        // UC12: Dynamic Strategy Injection
-        app.setStrategy(new StackStrategy());
-        app.validate(testInput);
+        // --- Performance Benchmarking ---
 
-        app.setStrategy(new DequeStrategy());
-        app.validate(testInput);
+        // Algorithm 1: Simple Two-Pointer Approach (UC2/UC4 logic)
+        long startTime = System.nanoTime(); // Capture start time
+        boolean result = isPalindromeBasic(input);
+        long endTime = System.nanoTime(); // Capture end time
+
+        long duration = endTime - startTime; // Calculate duration
+
+        System.out.println("Is Palindrome? : " + result);
+        System.out.println("Execution Time : " + duration + " ns"); // Display result
+    }
+
+    private static boolean isPalindromeBasic(String input) {
+        int left = 0;
+        int right = input.length() - 1;
+        while (left < right) {
+            if (input.charAt(left++) != input.charAt(right--)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
